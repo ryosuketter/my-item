@@ -33,7 +33,7 @@ export async function generateMetadata({
       ...(product.companies?.map((c) => (c as Company).name) ?? []),
     ].join(","),
     openGraph: {
-      title: product.name,
+      title: `${product.name} | shimizu item`,
       description: product.comment,
       type: "website",
       url: `https://shimizu-item.vercel.app/product/${product.id}`,
