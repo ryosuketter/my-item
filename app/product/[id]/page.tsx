@@ -1,11 +1,19 @@
 "use client";
 
-import {useState, useMemo} from "react";
-import {useParams, useRouter} from "next/navigation";
-import {ArrowLeft, Star, ExternalLink, Play, Share2, ChevronLeft, ChevronRight} from "lucide-react";
-import {Button} from "@/components/ui/button";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Badge} from "@/components/ui/badge";
+import { useState, useMemo } from "react";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ArrowLeft,
+  Star,
+  ExternalLink,
+  Play,
+  Share2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -47,7 +55,8 @@ const mockProducts = [
     id: 2,
     name: "Sony WH-1000XM5",
     link: "https://example.com/sony-headphones",
-    detailedComment: "Sony WH-1000XM5は、ノイズキャンセリングヘッドホンの最高峰だと思います。",
+    detailedComment:
+      "Sony WH-1000XM5は、ノイズキャンセリングヘッドホンの最高峰だと思います。",
     photos: [
       "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
       "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
@@ -76,7 +85,9 @@ export default function ProductDetailPage() {
     if (!product) return [];
     return mockProducts
       .filter(
-        (p) => p.id !== productId && p.categories.some((cat) => product.categories.includes(cat))
+        (p) =>
+          p.id !== productId &&
+          p.categories.some((cat) => product.categories.includes(cat))
       )
       .slice(0, 3);
   }, [product, productId]);
@@ -85,7 +96,9 @@ export default function ProductDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">商品が見つかりません</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            商品が見つかりません
+          </h1>
           <Button onClick={() => router.push("/")}>
             <ArrowLeft className="w-4 h-4 mr-2" />
             トップページに戻る
@@ -96,7 +109,7 @@ export default function ProductDetailPage() {
   }
 
   const renderStars = (rating: number) => {
-    return Array.from({length: 5}, (_, i) => (
+    return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={`star-${rating}-${i}`}
         className={`w-5 h-5 ${i < rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`}
@@ -109,7 +122,9 @@ export default function ProductDetailPage() {
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev - 1 + product.photos.length) % product.photos.length);
+    setCurrentImageIndex(
+      (prev) => (prev - 1 + product.photos.length) % product.photos.length
+    );
   };
 
   const handleShare = async () => {
@@ -140,7 +155,9 @@ export default function ProductDetailPage() {
               <ArrowLeft className="w-4 h-4 mr-2" />
               商品一覧に戻る
             </Button>
-            <h1 className="text-xl font-bold text-gray-900 truncate">{product.name}</h1>
+            <h1 className="text-xl font-bold text-gray-900 truncate">
+              {product.name}
+            </h1>
             <div className="flex items-center gap-2">
               <Button variant="ghost" size="sm" onClick={handleShare}>
                 <Share2 className="w-4 h-4" />
@@ -211,7 +228,9 @@ export default function ProductDetailPage() {
                     key={index}
                     onClick={() => setCurrentImageIndex(index)}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
-                      index === currentImageIndex ? "border-blue-500" : "border-gray-200"
+                      index === currentImageIndex
+                        ? "border-blue-500"
+                        : "border-gray-200"
                     }`}
                   >
                     <Image
@@ -230,10 +249,14 @@ export default function ProductDetailPage() {
           {/* 商品情報 */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">{product.name}</h1>
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                {product.name}
+              </h1>
 
               <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center gap-1">{renderStars(product.rating)}</div>
+                <div className="flex items-center gap-1">
+                  {renderStars(product.rating)}
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-2 mb-6">
@@ -251,7 +274,11 @@ export default function ProductDetailPage() {
               </div>
 
               <Button asChild size="lg" className="w-full mb-4">
-                <a href={product.link} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={product.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <ExternalLink className="w-5 h-5 mr-2" />
                   購入サイトで詳細を見る
                 </a>
@@ -269,11 +296,13 @@ export default function ProductDetailPage() {
               </CardHeader>
               <CardContent>
                 <div className="prose max-w-none">
-                  {product.detailedComment?.split("\n").map((paragraph, index) => (
-                    <p key={index} className="mb-4 leading-relaxed">
-                      {paragraph}
-                    </p>
-                  ))}
+                  {product.detailedComment
+                    ?.split("\n")
+                    .map((paragraph, index) => (
+                      <p key={index} className="mb-4 leading-relaxed">
+                        {paragraph}
+                      </p>
+                    ))}
                 </div>
               </CardContent>
             </Card>

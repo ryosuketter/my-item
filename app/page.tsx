@@ -1,11 +1,11 @@
 "use client";
 
-import {useState, useMemo, useCallback} from "react";
-import {Search, Filter, Star, Play} from "lucide-react";
-import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
-import {Badge} from "@/components/ui/badge";
+import { useState, useMemo, useCallback } from "react";
+import { Search, Filter, Star, Play } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -13,9 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {Checkbox} from "@/components/ui/checkbox";
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
-import {Separator} from "@/components/ui/separator";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 
 // モックデータ
@@ -26,7 +32,9 @@ const mockProducts = [
     link: "https://example.com/macbook",
     comment:
       "軽量で持ち運びやすく、バッテリー持ちが素晴らしい。プログラミングから動画編集まで快適にこなせます。",
-    photos: ["https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"],
+    photos: [
+      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
+    ],
     videoUrl: "https://youtube.com/watch?v=example",
     price: 164800,
     categories: ["ガジェット", "パソコン"],
@@ -36,8 +44,11 @@ const mockProducts = [
     id: 2,
     name: "Sony WH-1000XM5",
     link: "https://example.com/sony-headphones",
-    comment: "ノイズキャンセリング性能が抜群。長時間の使用でも疲れにくく、音質も最高レベルです。",
-    photos: ["https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"],
+    comment:
+      "ノイズキャンセリング性能が抜群。長時間の使用でも疲れにくく、音質も最高レベルです。",
+    photos: [
+      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
+    ],
     videoUrl: "",
     price: 49500,
     categories: ["ガジェット", "オーディオ"],
@@ -47,8 +58,11 @@ const mockProducts = [
     id: 3,
     name: "バルミューダ ザ・トースター",
     link: "https://example.com/balmuda-toaster",
-    comment: "食パンが驚くほど美味しく焼けます。デザインもおしゃれで、キッチンの主役になります。",
-    photos: ["https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"],
+    comment:
+      "食パンが驚くほど美味しく焼けます。デザインもおしゃれで、キッチンの主役になります。",
+    photos: [
+      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
+    ],
     videoUrl: "https://youtube.com/watch?v=example2",
     price: 27940,
     categories: ["家電", "キッチン"],
@@ -58,8 +72,11 @@ const mockProducts = [
     id: 4,
     name: "アトミック・ハビット",
     link: "https://example.com/atomic-habits",
-    comment: "習慣化について科学的根拠に基づいて書かれた名著。実践的で人生が変わります。",
-    photos: ["https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"],
+    comment:
+      "習慣化について科学的根拠に基づいて書かれた名著。実践的で人生が変わります。",
+    photos: [
+      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
+    ],
     videoUrl: "",
     price: 1760,
     categories: ["本", "自己啓発"],
@@ -69,8 +86,11 @@ const mockProducts = [
     id: 5,
     name: "Anker PowerCore 10000",
     link: "https://example.com/anker-powercore",
-    comment: "コンパクトなのに大容量。旅行や外出時の必需品です。充電速度も申し分なし。",
-    photos: ["https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"],
+    comment:
+      "コンパクトなのに大容量。旅行や外出時の必需品です。充電速度も申し分なし。",
+    photos: [
+      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
+    ],
     videoUrl: "",
     price: 2990,
     categories: ["ガジェット", "アクセサリー"],
@@ -80,8 +100,11 @@ const mockProducts = [
     id: 6,
     name: "ダイソン V15 Detect",
     link: "https://example.com/dyson-v15",
-    comment: "レーザーでゴミが見える機能が革新的。吸引力も強く、掃除が楽しくなります。",
-    photos: ["https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"],
+    comment:
+      "レーザーでゴミが見える機能が革新的。吸引力も強く、掃除が楽しくなります。",
+    photos: [
+      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
+    ],
     videoUrl: "https://youtube.com/watch?v=example3",
     price: 89800,
     categories: ["家電", "掃除"],
@@ -89,7 +112,9 @@ const mockProducts = [
   },
 ];
 
-const allCategories = Array.from(new Set(mockProducts.flatMap((p) => p.categories)));
+const allCategories = Array.from(
+  new Set(mockProducts.flatMap((p) => p.categories))
+);
 
 export default function ProductComparisonSite() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -132,7 +157,7 @@ export default function ProductComparisonSite() {
   }, [searchTerm, selectedCategories, minRating, sortBy]);
 
   const renderStars = useCallback((rating: number) => {
-    return Array.from({length: 5}, (_, i) => (
+    return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={`star-${rating}-${i}`}
         className={`w-2.5 h-2.5 sm:w-4 sm:h-4 ${
@@ -160,11 +185,16 @@ export default function ProductComparisonSite() {
                     if (checked) {
                       setSelectedCategories((prev) => [...prev, category]);
                     } else {
-                      setSelectedCategories((prev) => prev.filter((c) => c !== category));
+                      setSelectedCategories((prev) =>
+                        prev.filter((c) => c !== category)
+                      );
                     }
                   }}
                 />
-                <label htmlFor={category} className="text-sm font-medium cursor-pointer flex-1">
+                <label
+                  htmlFor={category}
+                  className="text-sm font-medium cursor-pointer flex-1"
+                >
                   {category}
                 </label>
               </div>
@@ -207,7 +237,9 @@ export default function ProductComparisonSite() {
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row items-center justify-between py-4 sm:h-16 gap-4">
             <div className="flex items-center">
-              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">👍</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                👍
+              </h1>
             </div>
             <div className="w-full sm:flex-1 sm:max-w-lg">
               <div className="relative">
@@ -250,7 +282,10 @@ export default function ProductComparisonSite() {
                 {/* モバイル用フィルターボタン */}
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button variant="outline" className="lg:hidden bg-transparent">
+                    <Button
+                      variant="outline"
+                      className="lg:hidden bg-transparent"
+                    >
                       <Filter className="w-4 h-4 mr-2" />
                       フィルター
                     </Button>
@@ -265,7 +300,9 @@ export default function ProductComparisonSite() {
                   </SheetContent>
                 </Sheet>
 
-                <p className="text-sm text-gray-600">{filteredAndSortedProducts.length}件</p>
+                <p className="text-sm text-gray-600">
+                  {filteredAndSortedProducts.length}件
+                </p>
               </div>
 
               <Select value={sortBy} onValueChange={setSortBy}>
@@ -317,15 +354,22 @@ export default function ProductComparisonSite() {
                               title={category}
                             >
                               <span className="sm:hidden">
-                                {category.length > 2 ? category.substring(0, 2) : category}
+                                {category.length > 2
+                                  ? category.substring(0, 2)
+                                  : category}
                               </span>
-                              <span className="hidden sm:inline">{category}</span>
+                              <span className="hidden sm:inline">
+                                {category}
+                              </span>
                             </Badge>
                           ))}
                         </div>
                       </div>
                       <div className="absolute bottom-2 left-2">
-                        <Badge variant="secondary" className="bg-black/70 text-white text-xs">
+                        <Badge
+                          variant="secondary"
+                          className="bg-black/70 text-white text-xs"
+                        >
                           ¥{product.price.toLocaleString()}
                         </Badge>
                       </div>
@@ -333,7 +377,9 @@ export default function ProductComparisonSite() {
                         <div className="absolute bottom-2 right-2">
                           <div className="bg-black/70 text-white rounded-full p-1 sm:rounded-lg sm:px-2 sm:py-1 flex items-center gap-1">
                             <Play className="w-3 h-3" />
-                            <span className="hidden sm:inline text-xs">動画あり</span>
+                            <span className="hidden sm:inline text-xs">
+                              動画あり
+                            </span>
                           </div>
                         </div>
                       )}
@@ -353,8 +399,12 @@ export default function ProductComparisonSite() {
 
             {filteredAndSortedProducts.length === 0 && (
               <div className="text-center py-12">
-                <p className="text-gray-500 text-lg">条件に合う商品が見つかりませんでした。</p>
-                <p className="text-gray-400 text-sm mt-2">検索条件を変更してお試しください。</p>
+                <p className="text-gray-500 text-lg">
+                  条件に合う商品が見つかりませんでした。
+                </p>
+                <p className="text-gray-400 text-sm mt-2">
+                  検索条件を変更してお試しください。
+                </p>
               </div>
             )}
           </div>
