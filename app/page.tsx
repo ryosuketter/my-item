@@ -117,7 +117,7 @@ export default function ProductComparisonSite() {
             {categoriesForUI.map((category) => (
               <div
                 key={category.id}
-                className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-50"
+                className="flex items-center space-x-2 p-1 rounded-lg hover:bg-customBg"
               >
                 <Checkbox
                   id={category.name}
@@ -184,7 +184,7 @@ export default function ProductComparisonSite() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-customBg">
       {/* ヘッダー */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -215,7 +215,7 @@ export default function ProductComparisonSite() {
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* サイドバー（デスクトップ） */}
-          <div className="hidden lg:block w-64 flex-shrink-0">
+          <div className="hidden lg:block w-64 flex-shrink-0 ">
             <Card className="py-8">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
