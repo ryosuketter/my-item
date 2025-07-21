@@ -25,6 +25,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { useCategoryQueryParam } from "@/hooks/useCategoryQueryParam";
+import { useRatingQueryParam } from "@/hooks/useRatingQueryParam";
 
 // モックデータ
 const mockProducts = [
@@ -122,29 +123,14 @@ export default function ProductComparisonSite() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("rating-desc");
 
   // カスタムフックでカテゴリ状態とハンドラを取得
   const [selectedCategories, handleCategoryChange] =
     useCategoryQueryParam(allCategories);
 
-  // カテゴリ変更時にURLを更新
-  useEffect(() => {
-    if (selectedCategories.length === 1) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set("category", selectedCategories[0]);
-      router.replace(`/?${params.toString()}`);
-    } else if (
-      selectedCategories.length === 0 ||
-      selectedCategories.length > 1
-    ) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete("category");
-      router.replace(`/?${params.toString()}`);
-    }
-    // 複数カテゴリ選択時もURLからcategoryを消す
-  }, [selectedCategories, searchParams, router]);
+  // カスタムフックで評価状態とハンドラを取得
+  const [minRating, setMinRating] = useRatingQueryParam();
 
   const filteredAndSortedProducts = useMemo(() => {
     const filtered = mockProducts.filter((product) => {
