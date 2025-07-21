@@ -26,6 +26,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { useCategoryQueryParam } from "@/hooks/useCategoryQueryParam";
 import { useRatingQueryParam } from "@/hooks/useRatingQueryParam";
+import { useSortQueryParam } from "@/hooks/useSortQueryParam";
 
 // モックデータ
 const mockProducts = [
@@ -123,7 +124,7 @@ export default function ProductComparisonSite() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("rating-desc");
+  const [sort, setSort] = useSortQueryParam("rating-desc");
 
   // カスタムフックでカテゴリ状態とハンドラを取得
   const [selectedCategories, handleCategoryChange] =
@@ -147,7 +148,7 @@ export default function ProductComparisonSite() {
 
     // ソート
     filtered.sort((a, b) => {
-      switch (sortBy) {
+      switch (sort) {
         case "price-asc":
           return a.price - b.price;
         case "price-desc":
@@ -162,7 +163,7 @@ export default function ProductComparisonSite() {
     });
 
     return filtered;
-  }, [searchTerm, selectedCategories, minRating, sortBy]);
+  }, [searchTerm, selectedCategories, minRating, sort]);
 
   const renderStars = useCallback((rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -307,7 +308,7 @@ export default function ProductComparisonSite() {
                 </p>
               </div>
 
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sort} onValueChange={setSort}>
                 <SelectTrigger className="w-full sm:w-48">
                   <SelectValue />
                 </SelectTrigger>
