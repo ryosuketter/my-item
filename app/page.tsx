@@ -334,8 +334,9 @@ export default function ProductComparisonSite() {
                       </div>
                       {product.videoUrl && (
                         <div className="absolute bottom-2 right-2">
-                          <div className="bg-black/70 text-white rounded-full p-1">
+                          <div className="bg-black/70 text-white rounded-full p-1 sm:rounded-lg sm:px-2 sm:py-1 flex items-center gap-1">
                             <Play className="w-3 h-3" />
+                            <span className="hidden sm:inline text-xs">動画あり</span>
                           </div>
                         </div>
                       )}
