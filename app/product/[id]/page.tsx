@@ -23,7 +23,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Image from "next/image";
-import type { Product, Category } from "@/types/product";
+import type { Product } from "@/types/product";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -264,14 +264,14 @@ export default function ProductDetailPage() {
                 <CardTitle>レビュー</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose max-w-none">
-                  {product.detailedComment
-                    ?.split("\n")
-                    .map((paragraph, index) => (
-                      <p key={index} className="mb-4 leading-relaxed">
-                        {paragraph}
-                      </p>
-                    ))}
+                <div className="prose max-w-none rich-content">
+                  {product.detailedComment && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: product.detailedComment,
+                      }}
+                    />
+                  )}
                 </div>
               </CardContent>
             </Card>

@@ -98,3 +98,34 @@
     height: 0;
   }
 }
+
+/* microCMSリッチエディタ用スタイル */
+.rich-content h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid gray;
+  padding-left: 0.75rem;
+}
+.rich-content h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+.rich-content p {
+  margin-bottom: 1rem;
+  line-height: 1.8;
+}
+.rich-content strong {
+  font-weight: bold;
+}
+.rich-content ul,
+.rich-content ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+.rich-content li {
+  margin-bottom: 0.5rem;
+}
