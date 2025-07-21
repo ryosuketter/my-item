@@ -27,6 +27,7 @@ import Image from "next/image";
 import { useCategoryQueryParam } from "@/hooks/useCategoryQueryParam";
 import { useRatingQueryParam } from "@/hooks/useRatingQueryParam";
 import { useSortQueryParam } from "@/hooks/useSortQueryParam";
+import Link from "next/link";
 
 // モックデータ
 const mockProducts = [
@@ -218,12 +219,24 @@ export default function ProductComparisonSite() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0">すべて</SelectItem>
-                <SelectItem value="1">★1以上</SelectItem>
-                <SelectItem value="2">★2以上</SelectItem>
-                <SelectItem value="3">★3以上</SelectItem>
-                <SelectItem value="4">★4以上</SelectItem>
-                <SelectItem value="5">★5のみ</SelectItem>
+                <Link href="/?rating=0" passHref legacyBehavior>
+                  <SelectItem value="0">すべて</SelectItem>
+                </Link>
+                <Link href="/?rating=1" passHref legacyBehavior>
+                  <SelectItem value="1">★1以上</SelectItem>
+                </Link>
+                <Link href="/?rating=2" passHref legacyBehavior>
+                  <SelectItem value="2">★2以上</SelectItem>
+                </Link>
+                <Link href="/?rating=3" passHref legacyBehavior>
+                  <SelectItem value="3">★3以上</SelectItem>
+                </Link>
+                <Link href="/?rating=4" passHref legacyBehavior>
+                  <SelectItem value="4">★4以上</SelectItem>
+                </Link>
+                <Link href="/?rating=5" passHref legacyBehavior>
+                  <SelectItem value="5">★5のみ</SelectItem>
+                </Link>
               </SelectContent>
             </Select>
           </div>
@@ -241,7 +254,9 @@ export default function ProductComparisonSite() {
           <div className="flex flex-col sm:flex-row items-center justify-between py-4 sm:h-16 gap-4">
             <div className="flex items-center">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-                👍
+                <a href="/" className="hover:text-gray-700 transition-colors">
+                  👍
+                </a>
               </h1>
             </div>
             <div className="w-full sm:flex-1 sm:max-w-lg">
@@ -313,10 +328,18 @@ export default function ProductComparisonSite() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="rating-desc">評価の高い順</SelectItem>
-                  <SelectItem value="rating-asc">評価の低い順</SelectItem>
-                  <SelectItem value="price-asc">価格の安い順</SelectItem>
-                  <SelectItem value="price-desc">価格の高い順</SelectItem>
+                  <Link href="/?sort=rating-desc" passHref legacyBehavior>
+                    <SelectItem value="rating-desc">評価の高い順</SelectItem>
+                  </Link>
+                  <Link href="/?sort=rating-asc" passHref legacyBehavior>
+                    <SelectItem value="rating-asc">評価の低い順</SelectItem>
+                  </Link>
+                  <Link href="/?sort=price-asc" passHref legacyBehavior>
+                    <SelectItem value="price-asc">価格の安い順</SelectItem>
+                  </Link>
+                  <Link href="/?sort=price-desc" passHref legacyBehavior>
+                    <SelectItem value="price-desc">価格の高い順</SelectItem>
+                  </Link>
                 </SelectContent>
               </Select>
             </div>
