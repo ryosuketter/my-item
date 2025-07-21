@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Search, Filter, Star, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import {
 } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { useCategoryQueryParam } from "@/hooks/useCategoryQueryParam";
 
 // モックデータ
 const mockProducts = [
@@ -117,10 +119,32 @@ const allCategories = Array.from(
 );
 
 export default function ProductComparisonSite() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("rating-desc");
+
+  // カスタムフックでカテゴリ状態とハンドラを取得
+  const [selectedCategories, handleCategoryChange] =
+    useCategoryQueryParam(allCategories);
+
+  // カテゴリ変更時にURLを更新
+  useEffect(() => {
+    if (selectedCategories.length === 1) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("category", selectedCategories[0]);
+      router.replace(`/?${params.toString()}`);
+    } else if (
+      selectedCategories.length === 0 ||
+      selectedCategories.length > 1
+    ) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("category");
+      router.replace(`/?${params.toString()}`);
+    }
+    // 複数カテゴリ選択時もURLからcategoryを消す
+  }, [selectedCategories, searchParams, router]);
 
   const filteredAndSortedProducts = useMemo(() => {
     const filtered = mockProducts.filter((product) => {
@@ -181,15 +205,9 @@ export default function ProductComparisonSite() {
                 <Checkbox
                   id={category}
                   checked={selectedCategories.includes(category)}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      setSelectedCategories((prev) => [...prev, category]);
-                    } else {
-                      setSelectedCategories((prev) =>
-                        prev.filter((c) => c !== category)
-                      );
-                    }
-                  }}
+                  onCheckedChange={(checked) =>
+                    handleCategoryChange(category, !!checked)
+                  }
                 />
                 <label
                   htmlFor={category}
@@ -227,7 +245,7 @@ export default function ProductComparisonSite() {
         </div>
       </div>
     ),
-    [selectedCategories, minRating]
+    [selectedCategories, minRating, handleCategoryChange]
   );
 
   return (
