@@ -261,9 +261,12 @@ export default function ProductDetailPage() {
 
               <div className="flex flex-wrap gap-2 mb-6">
                 {product.categories.map((category) => (
-                  <Badge key={category} variant="secondary">
-                    {category}
-                  </Badge>
+                  <a
+                    key={category}
+                    href={`/?category=${encodeURIComponent(category)}`}
+                  >
+                    <Badge variant="secondary">{category}</Badge>
+                  </a>
                 ))}
               </div>
 
