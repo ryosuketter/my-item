@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import { Search, Filter, Star, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -122,8 +121,6 @@ const allCategories = Array.from(
 );
 
 export default function ProductComparisonSite() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useSortQueryParam("rating-desc");
 
