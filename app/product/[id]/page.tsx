@@ -239,16 +239,19 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              <Button asChild size="lg" className="w-full mb-4">
-                <a
-                  href={product.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="w-5 h-5 mr-2" />
-                  購入サイトで詳細を見る
-                </a>
-              </Button>
+              {/* 購入サイトボタン（リンクがある場合のみ表示） */}
+              {product.link && (
+                <Button asChild size="lg" className="w-full mb-4">
+                  <a
+                    href={product.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-5 h-5 mr-2" />
+                    購入サイトで詳細を見る
+                  </a>
+                </Button>
+              )}
             </div>
           </div>
         </div>
