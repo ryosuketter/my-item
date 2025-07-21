@@ -244,10 +244,7 @@ export default function ProductComparisonSite() {
                 {/* モバイル用フィルターボタン */}
                 <Sheet>
                   <SheetTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="lg:hidden bg-transparent"
-                    >
+                    <Button variant="outline" className="lg:hidden bg-white">
                       <Filter className="w-4 h-4 mr-2" />
                       フィルター
                     </Button>

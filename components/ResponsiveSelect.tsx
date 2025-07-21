@@ -29,7 +29,7 @@ export function ResponsiveSelect({
 
   if (mobile) {
     return (
-      <div className={`relative w-full sm:w-48 ${className}`}>
+      <div className={`relative w-full sm:w-48 bg-white ${className}`}>
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -46,7 +46,7 @@ export function ResponsiveSelect({
   }
   return (
     <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className={`w-full sm:w-48 ${className}`}>
+      <SelectTrigger className={`w-full sm:w-48 bg-white ${className}`}>
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
