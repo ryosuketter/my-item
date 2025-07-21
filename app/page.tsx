@@ -28,6 +28,7 @@ import { useRatingQueryParam } from "@/hooks/useRatingQueryParam";
 import { useSortQueryParam } from "@/hooks/useSortQueryParam";
 import Link from "next/link";
 import type { Product, Category } from "@/types/product";
+import { ResponsiveSelect } from "@/components/ResponsiveSelect";
 
 export default function ProductComparisonSite() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -148,34 +149,18 @@ export default function ProductComparisonSite() {
         <div>
           <h3 className="font-semibold mb-3">評価</h3>
           <div className="p-2">
-            <Select
+            <ResponsiveSelect
               value={minRating.toString()}
-              onValueChange={(value) => setMinRating(Number(value))}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <Link href="/?rating=0" passHref legacyBehavior>
-                  <SelectItem value="0">すべて</SelectItem>
-                </Link>
-                <Link href="/?rating=1" passHref legacyBehavior>
-                  <SelectItem value="1">★1以上</SelectItem>
-                </Link>
-                <Link href="/?rating=2" passHref legacyBehavior>
-                  <SelectItem value="2">★2以上</SelectItem>
-                </Link>
-                <Link href="/?rating=3" passHref legacyBehavior>
-                  <SelectItem value="3">★3以上</SelectItem>
-                </Link>
-                <Link href="/?rating=4" passHref legacyBehavior>
-                  <SelectItem value="4">★4以上</SelectItem>
-                </Link>
-                <Link href="/?rating=5" passHref legacyBehavior>
-                  <SelectItem value="5">★5のみ</SelectItem>
-                </Link>
-              </SelectContent>
-            </Select>
+              onChange={(v) => setMinRating(Number(v))}
+              options={[
+                { value: "0", label: "すべて" },
+                { value: "1", label: "★1以上" },
+                { value: "2", label: "★2以上" },
+                { value: "3", label: "★3以上" },
+                { value: "4", label: "★4以上" },
+                { value: "5", label: "★5のみ" },
+              ]}
+            />
           </div>
         </div>
       </div>
@@ -282,25 +267,16 @@ export default function ProductComparisonSite() {
                 </p>
               </div>
 
-              <Select value={sort} onValueChange={setSort}>
-                <SelectTrigger className="w-full sm:w-48">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <Link href="/?sort=rating-desc" passHref legacyBehavior>
-                    <SelectItem value="rating-desc">評価の高い順</SelectItem>
-                  </Link>
-                  <Link href="/?sort=rating-asc" passHref legacyBehavior>
-                    <SelectItem value="rating-asc">評価の低い順</SelectItem>
-                  </Link>
-                  <Link href="/?sort=price-asc" passHref legacyBehavior>
-                    <SelectItem value="price-asc">価格の安い順</SelectItem>
-                  </Link>
-                  <Link href="/?sort=price-desc" passHref legacyBehavior>
-                    <SelectItem value="price-desc">価格の高い順</SelectItem>
-                  </Link>
-                </SelectContent>
-              </Select>
+              <ResponsiveSelect
+                value={sort}
+                onChange={setSort}
+                options={[
+                  { value: "rating-desc", label: "評価の高い順" },
+                  { value: "rating-asc", label: "評価の低い順" },
+                  { value: "price-asc", label: "価格の安い順" },
+                  { value: "price-desc", label: "価格の高い順" },
+                ]}
+              />
             </div>
 
             {/* 商品グリッド */}
