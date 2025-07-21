@@ -1,4 +1,4 @@
-import type {Config} from "tailwindcss";
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: "class",
@@ -60,52 +60,52 @@ const config: Config = {
       },
       keyframes: {
         "accordion-down": {
-          from: {height: "0"},
-          to: {height: "var(--radix-accordion-content-height)"},
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {height: "var(--radix-accordion-content-height)"},
-          to: {height: "0"},
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
         "slide-in-from-top": {
-          "0%": {transform: "translateY(-100%)"},
-          "100%": {transform: "translateY(0)"},
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(0)" },
         },
         "slide-in-from-bottom": {
-          "0%": {transform: "translateY(100%)"},
-          "100%": {transform: "translateY(0)"},
+          "0%": { transform: "translateY(100%)" },
+          "100%": { transform: "translateY(0)" },
         },
         "slide-in-from-left": {
-          "0%": {transform: "translateX(-100%)"},
-          "100%": {transform: "translateX(0)"},
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
         },
         "slide-in-from-right": {
-          "0%": {transform: "translateX(100%)"},
-          "100%": {transform: "translateX(0)"},
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0)" },
         },
         "slide-out-to-top": {
-          "0%": {transform: "translateY(0)"},
-          "100%": {transform: "translateY(-100%)"},
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(-100%)" },
         },
         "slide-out-to-bottom": {
-          "0%": {transform: "translateY(0)"},
-          "100%": {transform: "translateY(100%)"},
+          "0%": { transform: "translateY(0)" },
+          "100%": { transform: "translateY(100%)" },
         },
         "slide-out-to-left": {
-          "0%": {transform: "translateX(0)"},
-          "100%": {transform: "translateX(-100%)"},
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
         },
         "slide-out-to-right": {
-          "0%": {transform: "translateX(0)"},
-          "100%": {transform: "translateX(100%)"},
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(100%)" },
         },
         "fade-in": {
-          "0%": {opacity: "0"},
-          "100%": {opacity: "1"},
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
         "fade-out": {
-          "0%": {opacity: "1"},
-          "100%": {opacity: "0"},
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
         },
       },
       animation: {
