@@ -11,6 +11,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { SiLine } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -91,40 +92,32 @@ export default function ProductDetailPage() {
     );
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: product.name,
-          text: product.detailedComment,
-          url: window.location.href,
-        });
-      } catch (err) {
-        console.log("共有がキャンセルされました");
-      }
-    } else {
-      // フォールバック: URLをクリップボードにコピー
-      navigator.clipboard.writeText(window.location.href);
-      alert("URLをクリップボードにコピーしました");
-    }
+  const handleLineShare = () => {
+    const text = encodeURIComponent(`${product.name}\n${window.location.href}`);
+    const lineUrl = `https://line.me/R/share?text=${text}`;
+    window.open(lineUrl, "_blank");
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* ヘッダー */}
       <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Button variant="ghost" onClick={() => router.push("/")}>
               <ArrowLeft className="w-4 h-4 mr-2" />
-              商品一覧に戻る
             </Button>
-            <h1 className="text-xl font-bold text-gray-900 truncate">
+            <h1 className="text-base font-bold text-gray-900 truncate">
               {product.name}
             </h1>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={handleShare}>
-                <Share2 className="w-4 h-4" />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLineShare}
+                aria-label="LINEでシェア"
+              >
+                <SiLine className="w-5 h-5 text-green-500" />
               </Button>
             </div>
           </div>
