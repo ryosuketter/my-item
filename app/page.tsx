@@ -43,6 +43,7 @@ const mockProducts = [
     price: 164800,
     categories: ["ガジェット", "パソコン"],
     rating: 5,
+    relatedProducts: [2, 5], // 例: 手動で関連商品IDを指定
   },
   {
     id: 2,
@@ -57,6 +58,7 @@ const mockProducts = [
     price: 49500,
     categories: ["ガジェット", "オーディオ"],
     rating: 5,
+    relatedProducts: [1, 5],
   },
   {
     id: 3,
@@ -71,6 +73,7 @@ const mockProducts = [
     price: 27940,
     categories: ["家電", "キッチン"],
     rating: 4,
+    relatedProducts: [6],
   },
   {
     id: 4,
@@ -85,6 +88,7 @@ const mockProducts = [
     price: 1760,
     categories: ["本", "自己啓発"],
     rating: 5,
+    relatedProducts: [],
   },
   {
     id: 5,
@@ -99,6 +103,7 @@ const mockProducts = [
     price: 2990,
     categories: ["ガジェット", "アクセサリー"],
     rating: 4,
+    relatedProducts: [1, 2],
   },
   {
     id: 6,
@@ -113,6 +118,7 @@ const mockProducts = [
     price: 89800,
     categories: ["家電", "掃除"],
     rating: 4,
+    relatedProducts: [3],
   },
 ];
 
