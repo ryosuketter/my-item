@@ -230,7 +230,7 @@ export default function ProductComparisonSite() {
         </div>
       </div>
     ),
-    [selectedCategories, minRating, handleCategoryChange]
+    [selectedCategories, minRating, handleCategoryChange, setMinRating]
   );
 
   return (
