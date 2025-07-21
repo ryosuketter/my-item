@@ -1,7 +1,7 @@
 "use client";
 
 import {useState, useMemo, useCallback} from "react";
-import {Search, Filter, Star, Play, Heart} from "lucide-react";
+import {Search, Filter, Star, Play} from "lucide-react";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
@@ -96,7 +96,6 @@ export default function ProductComparisonSite() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("rating-desc");
-  const [favorites, setFavorites] = useState<number[]>([]);
 
   const filteredAndSortedProducts = useMemo(() => {
     const filtered = mockProducts.filter((product) => {
@@ -131,12 +130,6 @@ export default function ProductComparisonSite() {
 
     return filtered;
   }, [searchTerm, selectedCategories, minRating, sortBy]);
-
-  const toggleFavorite = (productId: number) => {
-    setFavorites((prev) =>
-      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId]
-    );
-  };
 
   const renderStars = useCallback((rating: number) => {
     return Array.from({length: 5}, (_, i) => (
@@ -308,20 +301,7 @@ export default function ProductComparisonSite() {
                         height={300}
                         className="w-full h-48 object-cover"
                       />
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-                        onClick={() => toggleFavorite(product.id)}
-                      >
-                        <Heart
-                          className={`w-4 h-4 ${
-                            favorites.includes(product.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-600"
-                          }`}
-                        />
-                      </Button>
+
                       <div className="absolute top-2 left-2">
                         <div className="flex items-center -space-x-0.5 sm:gap-1 bg-black/30 text-white rounded px-2 py-1">
                           {renderStars(product.rating)}

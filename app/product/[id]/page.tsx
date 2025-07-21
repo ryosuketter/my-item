@@ -2,16 +2,7 @@
 
 import {useState, useMemo} from "react";
 import {useParams, useRouter} from "next/navigation";
-import {
-  ArrowLeft,
-  Star,
-  ExternalLink,
-  Play,
-  Heart,
-  Share2,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import {ArrowLeft, Star, ExternalLink, Play, Share2, ChevronLeft, ChevronRight} from "lucide-react";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Badge} from "@/components/ui/badge";
@@ -77,7 +68,6 @@ export default function ProductDetailPage() {
   const productId = Number.parseInt(params.id as string);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const product = mockProducts.find((p) => p.id === productId);
 
@@ -152,13 +142,6 @@ export default function ProductDetailPage() {
             </Button>
             <h1 className="text-xl font-bold text-gray-900 truncate">{product.name}</h1>
             <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" onClick={() => setIsFavorite(!isFavorite)}>
-                <Heart
-                  className={`w-4 h-4 ${
-                    isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
-                  }`}
-                />
-              </Button>
               <Button variant="ghost" size="sm" onClick={handleShare}>
                 <Share2 className="w-4 h-4" />
               </Button>
