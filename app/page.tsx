@@ -307,6 +307,23 @@ export default function ProductComparisonSite() {
                           {renderStars(product.rating)}
                         </div>
                       </div>
+                      <div className="absolute top-2 right-2">
+                        <div className="flex flex-col gap-1">
+                          {product.categories.map((category) => (
+                            <Badge
+                              key={category}
+                              variant="secondary"
+                              className="bg-black/70 text-white text-[8px] sm:text-xs px-1.5 py-0.5 rounded-full truncate max-w-[40px] sm:max-w-none"
+                              title={category}
+                            >
+                              <span className="sm:hidden">
+                                {category.length > 2 ? category.substring(0, 2) : category}
+                              </span>
+                              <span className="hidden sm:inline">{category}</span>
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
                       <div className="absolute bottom-2 left-2">
                         <Badge variant="secondary" className="bg-black/70 text-white text-xs">
                           ¥{product.price.toLocaleString()}
@@ -327,18 +344,6 @@ export default function ProductComparisonSite() {
                         <h3 className="font-semibold text-xs sm:text-sm md:text-base line-clamp-2">
                           {product.name}
                         </h3>
-                      </div>
-
-                      <div className="flex flex-wrap gap-2 mb-3">
-                        {product.categories.map((category) => (
-                          <Badge
-                            key={category}
-                            variant="secondary"
-                            className="text-[10px] sm:text-sm px-2 py-1 rounded-full"
-                          >
-                            {category}
-                          </Badge>
-                        ))}
                       </div>
                     </CardContent>
                   </a>
