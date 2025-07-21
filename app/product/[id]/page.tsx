@@ -7,7 +7,6 @@ import {
   Star,
   ExternalLink,
   Play,
-  Share2,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
