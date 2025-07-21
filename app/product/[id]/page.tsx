@@ -251,7 +251,7 @@ export default function ProductDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* 詳細レビュー */}
           <div className="lg:col-span-2 space-y-8">
-            <Card className="py-6">
+            <Card className="py-6 gap-2">
               <CardHeader>
                 <CardTitle>レビュー</CardTitle>
               </CardHeader>
