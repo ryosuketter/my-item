@@ -365,7 +365,7 @@ export default function ProductDetailPage() {
                           <div className="flex items-center gap-1 mb-1">
                             {renderStars(relatedProduct.rating)}
                           </div>
-                          <div className="text-sm font-bold text-blue-600">
+                          <div className="text-sm font-bold">
                             ¥{relatedProduct.price.toLocaleString()}
                           </div>
                         </div>
