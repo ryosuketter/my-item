@@ -285,6 +285,15 @@ export default function ProductComparisonSite() {
                         height={300}
                         className="w-full h-48 object-cover"
                       />
+                      {/* コメントを中央に重ねる */}
+                      {product.comment && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <span className="bg-black/40 text-white text-xs sm:text-base px-2 py-1 rounded">
+                            {product.comment}
+                          </span>
+                        </div>
+                      )}
+                      {/* 既存の評価・カテゴリ・価格・動画ラベルなどはそのまま */}
 
                       <div className="absolute top-2 left-2">
                         <div className="flex items-center -space-x-0.5 sm:gap-1 bg-black/30 text-white rounded px-2 py-1">

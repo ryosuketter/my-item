@@ -1,3 +1,10 @@
+export type Company = {
+  id: string;
+  name: string;
+  slug?: string;
+  website?: string;
+};
+
 export type Category = {
   id: string;
   name: string;
@@ -19,4 +26,5 @@ export type Product = {
   pros?: string[];
   cons?: string[];
   relatedProducts?: Product[];
+  companies?: Company[];
 };

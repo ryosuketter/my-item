@@ -207,9 +207,14 @@ export default function ProductDetailPage() {
           {/* 商品情報 */}
           <div className="space-y-6">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                {product.name}
-              </h1>
+              <p className="text-3xl font-bold text-gray-900 mb-4">
+                {product.comment}
+              </p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                {product.companies && product.companies.length > 0
+                  ? `${product.companies[0].name} / ${product.name}`
+                  : product.name}
+              </h3>
 
               <div className="flex items-center gap-4 mb-4">
                 <div className="flex items-center gap-1">
