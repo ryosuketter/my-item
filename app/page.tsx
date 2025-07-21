@@ -283,7 +283,7 @@ export default function ProductComparisonSite() {
             </div>
 
             {/* 商品グリッド */}
-            <div className="grid grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-1 sm:gap-6">
+            <div className="grid grid-cols-1 min-[300px]:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-1 sm:gap-6">
               {filteredAndSortedProducts.map((product) => (
                 <Card
                   key={product.id}
