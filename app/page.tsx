@@ -156,8 +156,6 @@ export default function ProductComparisonSite() {
           return b.rating - a.rating;
         case "rating-asc":
           return a.rating - b.rating;
-        case "name-asc":
-          return a.name.localeCompare(b.name);
         default:
           return 0;
       }
@@ -318,7 +316,6 @@ export default function ProductComparisonSite() {
                   <SelectItem value="rating-asc">評価の低い順</SelectItem>
                   <SelectItem value="price-asc">価格の安い順</SelectItem>
                   <SelectItem value="price-desc">価格の高い順</SelectItem>
-                  <SelectItem value="name-asc">名前順</SelectItem>
                 </SelectContent>
               </Select>
             </div>
