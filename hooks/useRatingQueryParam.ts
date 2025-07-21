@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -28,7 +30,6 @@ export function useRatingQueryParam() {
       }
     }
     isInitialized.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   // minRatingの変更時にURLを同期（初期化後のみ）
@@ -44,7 +45,6 @@ export function useRatingQueryParam() {
       params.delete("rating");
       router.replace(`/?${params.toString()}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [minRating, searchParams, router]);
 
   // 評価設定時のハンドラ

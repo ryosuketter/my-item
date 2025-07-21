@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Search, Filter, Star, Play } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,130 +27,65 @@ import { useCategoryQueryParam } from "@/hooks/useCategoryQueryParam";
 import { useRatingQueryParam } from "@/hooks/useRatingQueryParam";
 import { useSortQueryParam } from "@/hooks/useSortQueryParam";
 import Link from "next/link";
-
-// モックデータ
-const mockProducts = [
-  {
-    id: 1,
-    name: "Apple MacBook Air M2",
-    link: "https://example.com/macbook",
-    comment:
-      "軽量で持ち運びやすく、バッテリー持ちが素晴らしい。プログラミングから動画編集まで快適にこなせます。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "https://youtube.com/watch?v=example",
-    price: 164800,
-    categories: ["ガジェット", "パソコン"],
-    rating: 5,
-    relatedProducts: [2, 5], // 例: 手動で関連商品IDを指定
-  },
-  {
-    id: 2,
-    name: "Sony WH-1000XM5",
-    link: "https://example.com/sony-headphones",
-    comment:
-      "ノイズキャンセリング性能が抜群。長時間の使用でも疲れにくく、音質も最高レベルです。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "",
-    price: 49500,
-    categories: ["ガジェット", "オーディオ"],
-    rating: 5,
-    relatedProducts: [1, 5],
-  },
-  {
-    id: 3,
-    name: "バルミューダ ザ・トースター",
-    link: "https://example.com/balmuda-toaster",
-    comment:
-      "食パンが驚くほど美味しく焼けます。デザインもおしゃれで、キッチンの主役になります。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "https://youtube.com/watch?v=example2",
-    price: 27940,
-    categories: ["家電", "キッチン"],
-    rating: 4,
-    relatedProducts: [6],
-  },
-  {
-    id: 4,
-    name: "アトミック・ハビット",
-    link: "https://example.com/atomic-habits",
-    comment:
-      "習慣化について科学的根拠に基づいて書かれた名著。実践的で人生が変わります。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "",
-    price: 1760,
-    categories: ["本", "自己啓発"],
-    rating: 5,
-    relatedProducts: [],
-  },
-  {
-    id: 5,
-    name: "Anker PowerCore 10000",
-    link: "https://example.com/anker-powercore",
-    comment:
-      "コンパクトなのに大容量。旅行や外出時の必需品です。充電速度も申し分なし。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "",
-    price: 2990,
-    categories: ["ガジェット", "アクセサリー"],
-    rating: 4,
-    relatedProducts: [1, 2],
-  },
-  {
-    id: 6,
-    name: "ダイソン V15 Detect",
-    link: "https://example.com/dyson-v15",
-    comment:
-      "レーザーでゴミが見える機能が革新的。吸引力も強く、掃除が楽しくなります。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "https://youtube.com/watch?v=example3",
-    price: 89800,
-    categories: ["家電", "掃除"],
-    rating: 4,
-    relatedProducts: [3],
-  },
-];
-
-const allCategories = Array.from(
-  new Set(mockProducts.flatMap((p) => p.categories))
-);
+import type { Product, Category } from "@/types/product";
 
 export default function ProductComparisonSite() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sort, setSort] = useSortQueryParam("rating-desc");
 
-  // カスタムフックでカテゴリ状態とハンドラを取得
-  const [selectedCategories, handleCategoryChange] =
-    useCategoryQueryParam(allCategories);
+  useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      fetch("/api/products").then((res) => res.json()),
+      fetch("/api/categories").then((res) => res.json()),
+    ])
+      .then(([productsData, categoriesData]) => {
+        setProducts(productsData.contents || []);
+        setAllCategories(categoriesData.contents || []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("データの取得に失敗しました");
+        setLoading(false);
+      });
+  }, []);
 
-  // カスタムフックで評価状態とハンドラを取得
+  // productsに紐付いているカテゴリだけを抽出
+  const usedCategoryIds = useMemo(
+    () =>
+      new Set(
+        products.flatMap((p) => p.categories?.map((cat) => cat.id) || [])
+      ),
+    [products]
+  );
+  // 初期表示時はallCategories、products取得後は紐付くカテゴリのみ
+  const categoriesForUI = useMemo(() => {
+    if (products.length === 0) return allCategories;
+    return allCategories.filter((cat) => usedCategoryIds.has(cat.id));
+  }, [allCategories, usedCategoryIds, products.length]);
+
+  const [selectedCategories, handleCategoryChange] = useCategoryQueryParam(
+    categoriesForUI.map((cat) => cat.name)
+  );
   const [minRating, setMinRating] = useRatingQueryParam();
 
   const filteredAndSortedProducts = useMemo(() => {
-    const filtered = mockProducts.filter((product) => {
+    const filtered = products.filter((product) => {
       const matchesSearch =
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.comment.toLowerCase().includes(searchTerm.toLowerCase());
+        product.comment?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory =
         selectedCategories.length === 0 ||
-        selectedCategories.some((cat) => product.categories.includes(cat));
+        selectedCategories.some((cat) =>
+          product.categories?.some((c) => c.name === cat)
+        );
       const matchesRating = product.rating >= minRating;
-
       return matchesSearch && matchesCategory && matchesRating;
     });
-
-    // ソート
     filtered.sort((a, b) => {
       switch (sort) {
         case "price-asc":
@@ -165,9 +100,8 @@ export default function ProductComparisonSite() {
           return 0;
       }
     });
-
     return filtered;
-  }, [searchTerm, selectedCategories, minRating, sort]);
+  }, [products, searchTerm, selectedCategories, minRating, sort]);
 
   const renderStars = useCallback((rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -186,23 +120,23 @@ export default function ProductComparisonSite() {
         <div>
           <h3 className="font-semibold mb-3 pl-1">カテゴリ</h3>
           <div className="space-y-2">
-            {allCategories.map((category) => (
+            {categoriesForUI.map((category) => (
               <div
-                key={category}
+                key={category.id}
                 className="flex items-center space-x-2 p-1 rounded-lg hover:bg-gray-50"
               >
                 <Checkbox
-                  id={category}
-                  checked={selectedCategories.includes(category)}
+                  id={category.name}
+                  checked={selectedCategories.includes(category.name)}
                   onCheckedChange={(checked) =>
-                    handleCategoryChange(category, !!checked)
+                    handleCategoryChange(category.name, !!checked)
                   }
                 />
                 <label
-                  htmlFor={category}
+                  htmlFor={category.name}
                   className="text-sm font-medium cursor-pointer flex-1"
                 >
-                  {category}
+                  {category.name}
                 </label>
               </div>
             ))}
@@ -246,8 +180,30 @@ export default function ProductComparisonSite() {
         </div>
       </div>
     ),
-    [selectedCategories, minRating, handleCategoryChange, setMinRating]
+    [
+      selectedCategories,
+      minRating,
+      handleCategoryChange,
+      setMinRating,
+      categoriesForUI,
+    ]
   );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500 text-lg">読み込み中...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500 text-lg">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -357,10 +313,7 @@ export default function ProductComparisonSite() {
                   <Link href={`/product/${product.id}`} className="block">
                     <div className="relative">
                       <Image
-                        src={
-                          product.photos[0] ||
-                          "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg"
-                        }
+                        src={product.photos[0]?.url}
                         alt={product.name}
                         width={400}
                         height={300}
@@ -374,20 +327,20 @@ export default function ProductComparisonSite() {
                       </div>
                       <div className="absolute top-2 right-2">
                         <div className="flex flex-col gap-1">
-                          {product.categories.map((category) => (
+                          {product.categories?.map((category) => (
                             <Badge
-                              key={category}
+                              key={category.id}
                               variant="secondary"
                               className="bg-black/70 text-white text-[8px] sm:text-xs px-1.5 py-0.5 rounded-full truncate max-w-[40px] sm:max-w-none"
-                              title={category}
+                              title={category.name}
                             >
                               <span className="sm:hidden">
-                                {category.length > 2
-                                  ? category.substring(0, 2)
-                                  : category}
+                                {category.name.length > 2
+                                  ? category.name.substring(0, 2)
+                                  : category.name}
                               </span>
                               <span className="hidden sm:inline">
-                                {category}
+                                {category.name}
                               </span>
                             </Badge>
                           ))}

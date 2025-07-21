@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -23,86 +23,50 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Image from "next/image";
-
-// モックデータ（実際のアプリケーションではAPIから取得）
-const mockProducts = [
-  {
-    id: 1,
-    name: "Apple MacBook Air M2",
-    link: "https://example.com/macbook",
-    detailedComment:
-      "Apple MacBook Air M2は、私が今まで使ったノートパソコンの中で最も満足度の高い一台です。\n\n【良い点】\n• M2チップの処理能力が素晴らしく、重いアプリケーションもサクサク動作\n• バッテリー持ちが一日中使っても余裕で持つ\n• ファンレス設計で完全に無音\n• 軽量（1.24kg）で持ち運びが楽\n• Retinaディスプレイが美しい\n\n【注意点】\n• ポート数が少ない（USB-C x2、MagSafe、ヘッドホンジャック）\n• 外部モニターは1台まで\n• メモリ増設不可なので購入時に慎重に選択\n\n特にプログラマーやクリエイターにおすすめです。Xcodeでのアプリ開発、Final Cut Proでの動画編集も快適に行えます。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-      "https://picsum.photos/536/354",
-      "https://picsum.photos/537/354",
-      "https://picsum.photos/535/354",
-    ],
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-    price: 164800,
-    categories: ["ガジェット", "パソコン"],
-    rating: 4,
-    pros: [
-      "優れた処理性能",
-      "長時間バッテリー",
-      "軽量で持ち運びやすい",
-      "静音設計",
-      "美しいディスプレイ",
-    ],
-    cons: ["ポート数が少ない", "メモリ増設不可", "外部モニター1台まで"],
-  },
-  {
-    id: 2,
-    name: "Sony WH-1000XM5",
-    link: "https://example.com/sony-headphones",
-    detailedComment:
-      "Sony WH-1000XM5は、ノイズキャンセリングヘッドホンの最高峰だと思います。",
-    photos: [
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-      "https://design-library.jp/tech/wp-content/uploads/sites/2/1574303866_9f5bb0dd.jpg",
-    ],
-    videoUrl: "",
-    price: 49500,
-    categories: ["ガジェット", "オーディオ"],
-    rating: 4,
-    pros: ["最高クラスのノイズキャンセリング", "高音質", "長時間バッテリー"],
-    cons: ["価格が高い", "折りたたみ不可"],
-  },
-  // 他の商品データも同様に拡張...
-];
+import type { Product, Category } from "@/types/product";
 
 export default function ProductDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const productId = Number.parseInt(params.id as string);
+  const productId = params.id as string;
 
+  const [product, setProduct] = useState<Product | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const product = mockProducts.find((p) => p.id === productId);
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/api/products/${productId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("データの取得に失敗しました");
+        setLoading(false);
+      });
+  }, [productId]);
 
-  // 関連商品（同じカテゴリの他の商品）
-  const relatedProducts = useMemo(() => {
-    if (!product) return [];
-    return mockProducts
-      .filter(
-        (p) =>
-          p.id !== productId &&
-          p.categories.some((cat) => product.categories.includes(cat))
-      )
-      .slice(0, 3);
-  }, [product, productId]);
+  // 関連商品は一旦省略 or 別途APIで取得する形にできます
 
-  if (!product) {
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500 text-lg">読み込み中...</p>
+      </div>
+    );
+  }
+
+  if (error || !product) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             商品が見つかりません
           </h1>
-          <Button onClick={() => router.push("/")}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            トップページに戻る
-          </Button>
+          <Button onClick={() => router.push("/")}>トップページに戻る</Button>
         </div>
       </div>
     );
@@ -176,8 +140,8 @@ export default function ProductDetailPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/?category=${product.categories[0]}`}>
-                {product.categories[0]}
+              <BreadcrumbLink href={`/?category=${product.categories[0].name}`}>
+                {product.categories[0].slug}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -192,7 +156,9 @@ export default function ProductDetailPage() {
           <div className="space-y-4">
             <div className="relative aspect-[4/3] bg-white rounded-lg overflow-hidden">
               <Image
-                src={product.photos[currentImageIndex] || "/placeholder.svg"}
+                src={
+                  product.photos[currentImageIndex]?.url || "/placeholder.svg"
+                }
                 alt={`${product.name} - 画像 ${currentImageIndex + 1}`}
                 fill
                 className="object-cover"
@@ -234,7 +200,7 @@ export default function ProductDetailPage() {
                     }`}
                   >
                     <Image
-                      src={photo || "/placeholder.svg"}
+                      src={photo.url || "/placeholder.svg"}
                       alt={`${product.name} - サムネイル ${index + 1}`}
                       width={80}
                       height={80}
@@ -262,10 +228,10 @@ export default function ProductDetailPage() {
               <div className="flex flex-wrap gap-2 mb-6">
                 {product.categories.map((category) => (
                   <a
-                    key={category}
-                    href={`/?category=${encodeURIComponent(category)}`}
+                    key={category.id}
+                    href={`/?category=${encodeURIComponent(category.name)}`}
                   >
-                    <Badge variant="secondary">{category}</Badge>
+                    <Badge variant="secondary">{category.name}</Badge>
                   </a>
                 ))}
               </div>
@@ -377,17 +343,19 @@ export default function ProductDetailPage() {
           {/* サイドバー */}
           <div className="space-y-6">
             {/* 関連商品 */}
-            {relatedProducts.length > 0 && (
+            {product.relatedProducts && product.relatedProducts.length > 0 && (
               <Card className="py-6">
                 <CardHeader>
                   <CardTitle>関連</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {relatedProducts.map((relatedProduct) => (
+                    {product.relatedProducts.map((relatedProduct) => (
                       <div key={relatedProduct.id} className="flex gap-3">
                         <Image
-                          src={relatedProduct.photos[0] || "/placeholder.svg"}
+                          src={
+                            relatedProduct.photos[0]?.url || "/placeholder.svg"
+                          }
                           alt={relatedProduct.name}
                           width={60}
                           height={60}

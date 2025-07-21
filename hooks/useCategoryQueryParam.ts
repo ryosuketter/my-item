@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -15,11 +17,11 @@ export function useCategoryQueryParam(allCategories: string[]) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const isInitialized = useRef(false);
 
-  // 初期化: URLパラメータからカテゴリをセット（一度だけ実行）
+  // 初期化: allCategoriesが揃ってから初期化
   useEffect(() => {
-    // クライアントのみ
     if (typeof window === "undefined") return;
-    if (isInitialized.current) return; // 初期化済みの場合はスキップ
+    if (isInitialized.current) return;
+    if (allCategories.length === 0) return;
 
     const categoryParam = searchParams.get("category");
     if (categoryParam && allCategories.includes(categoryParam)) {
@@ -27,7 +29,7 @@ export function useCategoryQueryParam(allCategories: string[]) {
     }
     isInitialized.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, JSON.stringify(allCategories)]);
+  }, [searchParams, allCategories.join(",")]);
 
   // selectedCategoriesの変更時にURLを同期（初期化後のみ）
   useEffect(() => {
@@ -42,7 +44,6 @@ export function useCategoryQueryParam(allCategories: string[]) {
       params.delete("category");
       router.replace(`/?${params.toString()}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategories, searchParams, router]);
 
   // カテゴリ選択時のハンドラ

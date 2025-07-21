@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -24,7 +26,6 @@ export function useSortQueryParam(defaultSort: string) {
       setSortState(sortParam);
     }
     isInitialized.current = true;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   // sortの変更時にURLを同期（初期化後のみ）
@@ -39,7 +40,6 @@ export function useSortQueryParam(defaultSort: string) {
       params.delete("sort");
       router.replace(`/?${params.toString()}`);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sort, searchParams, router, defaultSort]);
 
   // ソート設定時のハンドラ
