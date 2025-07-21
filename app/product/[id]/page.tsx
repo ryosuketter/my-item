@@ -229,7 +229,7 @@ export default function ProductDetailPage() {
               </div>
 
               <div className="flex items-baseline gap-4 mb-6">
-                <div className="text-2xl font-bold text-blue-600">
+                <div className="text-2xl font-bold">
                   ¥{product.price.toLocaleString()}
                 </div>
               </div>
