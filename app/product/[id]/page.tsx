@@ -264,7 +264,7 @@ export default function ProductDetailPage() {
                 <CardTitle>レビュー</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="prose max-w-none rich-content">
+                <div className="max-w-none rich-content">
                   {product.detailedComment && (
                     <div
                       dangerouslySetInnerHTML={{
