@@ -351,7 +351,7 @@ export default function ProductComparisonSite() {
                   key={product.id}
                   className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
                 >
-                  <a href={`/product/${product.id}`} className="block">
+                  <Link href={`/product/${product.id}`} className="block">
                     <div className="relative">
                       <Image
                         src={
@@ -417,7 +417,7 @@ export default function ProductComparisonSite() {
                         </h3>
                       </div>
                     </CardContent>
-                  </a>
+                  </Link>
                 </Card>
               ))}
             </div>
