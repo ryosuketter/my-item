@@ -289,7 +289,7 @@ export default function ProductComparisonSite() {
                       {product.comment && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <span className="bg-black/40 text-white text-xs sm:text-base px-2 py-1 rounded">
-                            {product.comment}
+                            {product.companies?.[0]?.name}
                           </span>
                         </div>
                       )}
@@ -344,7 +344,7 @@ export default function ProductComparisonSite() {
                     <CardContent className="p-2 sm:p-4 pb-0 sm:pb-2">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="font-semibold text-xs sm:text-sm md:text-base line-clamp-2">
-                          {product.name}
+                          {product.comment}
                         </h3>
                       </div>
                     </CardContent>
