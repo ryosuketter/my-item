@@ -233,12 +233,6 @@ export default function ProductDetailPage() {
                 ))}
               </div>
 
-              <div className="flex items-baseline gap-4 mb-6">
-                <div className="text-2xl font-bold">
-                  ¥{product.price.toLocaleString()}
-                </div>
-              </div>
-
               {/* 購入サイトボタン（リンクがある場合のみ表示） */}
               {product.link && (
                 <Button asChild size="lg" className="w-full mb-4">
@@ -247,8 +241,8 @@ export default function ProductDetailPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <ExternalLink className="w-5 h-5 mr-2" />
                     購入サイトで詳細を見る
+                    <ExternalLink className="w-5 h-5 mr-2" />
                   </a>
                 </Button>
               )}
@@ -266,15 +260,40 @@ export default function ProductDetailPage() {
               <CardContent>
                 <div className="max-w-none rich-content">
                   {product.detailedComment && (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: product.detailedComment,
-                      }}
-                    />
+                    <>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: product.detailedComment,
+                        }}
+                      />
+                      {product.price && (
+                        <>
+                          <h2>購入価格</h2>
+                          <p>¥{product.price.toLocaleString()}</p>
+                          <p className="text-sm text-gray-500">
+                            ※あくまでも当時の購入価格です。現在はこの価格で購入できない場合があります。
+                          </p>
+                        </>
+                      )}
+                    </>
                   )}
                 </div>
               </CardContent>
             </Card>
+
+            {/* 購入サイトボタン（リンクがある場合のみ表示） */}
+            {product.link && (
+              <Button asChild size="lg" className="w-full mb-4">
+                <a
+                  href={product.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  購入サイトで詳細を見る
+                  <ExternalLink className="w-5 h-5 mr-2" />
+                </a>
+              </Button>
+            )}
 
             {/* YouTube動画 */}
             {product.videoUrl && (
@@ -374,7 +393,7 @@ export default function ProductDetailPage() {
                             {renderStars(relatedProduct.rating)}
                           </div>
                           <div className="text-sm font-bold">
-                            ¥{relatedProduct.price.toLocaleString()}
+                            {relatedProduct.comment}
                           </div>
                         </div>
                       </div>
