@@ -254,9 +254,6 @@ export default function ProductDetailPage() {
           {/* 詳細レビュー */}
           <div className="lg:col-span-2 space-y-8">
             <Card className="py-6 gap-2">
-              <CardHeader>
-                <CardTitle>レビュー</CardTitle>
-              </CardHeader>
               <CardContent>
                 <div className="max-w-none rich-content">
                   {product.detailedComment && (
