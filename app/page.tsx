@@ -34,7 +34,7 @@ export default function ProductComparisonSite() {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      fetch("/api/products").then((res) => res.json()),
+      fetch("/api/products?limit=100").then((res) => res.json()),
       fetch("/api/categories").then((res) => res.json()),
     ])
       .then(([productsData, categoriesData]) => {
