@@ -192,7 +192,7 @@ export default function ProductComparisonSite() {
             <div className="flex items-center">
               <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
                 <a href="/" className="hover:text-gray-700 transition-colors">
-                  👍
+                  👍 okini
                 </a>
               </h1>
             </div>
