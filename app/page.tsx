@@ -62,6 +62,7 @@ export default function ProductComparisonSite() {
     return allCategories.filter((cat) => usedCategoryIds.has(cat.id));
   }, [allCategories, usedCategoryIds, products.length]);
 
+  // カテゴリごとの商品数を取得
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = {};
     for (const product of products) {
@@ -73,8 +74,6 @@ export default function ProductComparisonSite() {
     }
     return counts;
   }, [products]);
-
-  console.log("categoryCounts", categoryCounts);
 
   const [selectedCategories, handleCategoryChange] = useCategoryQueryParam(
     categoriesForUI.map((cat) => cat.name)
