@@ -10,7 +10,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   let product: Product | null = null;
   try {
-    product = await getProduct(params.id);
+    const { id } = await params;
+    product = await getProduct(id);
   } catch {
     return {
       title: "商品が見つかりません",
