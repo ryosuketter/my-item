@@ -53,6 +53,7 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         customBg: "#f5f5f5",
+        grayBadge: "#4d4d4d", // bg-black/70に近い色
       },
       borderRadius: {
         lg: "var(--radius)",

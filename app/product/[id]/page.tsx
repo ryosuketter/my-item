@@ -228,7 +228,9 @@ export default function ProductDetailPage() {
                     key={category.id}
                     href={`/?category=${encodeURIComponent(category.name)}`}
                   >
-                    <Badge variant="secondary">{category.name}</Badge>
+                    <Badge className="bg-grayBadge text-white">
+                      {category.name}
+                    </Badge>
                   </a>
                 ))}
               </div>
