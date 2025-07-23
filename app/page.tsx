@@ -62,6 +62,20 @@ export default function ProductComparisonSite() {
     return allCategories.filter((cat) => usedCategoryIds.has(cat.id));
   }, [allCategories, usedCategoryIds, products.length]);
 
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const product of products) {
+      if (product.categories) {
+        for (const cat of product.categories) {
+          counts[cat.name] = (counts[cat.name] || 0) + 1;
+        }
+      }
+    }
+    return counts;
+  }, [products]);
+
+  console.log("categoryCounts", categoryCounts);
+
   const [selectedCategories, handleCategoryChange] = useCategoryQueryParam(
     categoriesForUI.map((cat) => cat.name)
   );
@@ -131,6 +145,9 @@ export default function ProductComparisonSite() {
                   className="text-sm font-medium cursor-pointer flex-1"
                 >
                   {category.name}
+                  <span className="ml-2 text-xs text-gray-500">
+                    ({categoryCounts[category.name] || 0})
+                  </span>
                 </label>
               </div>
             ))}
@@ -164,6 +181,7 @@ export default function ProductComparisonSite() {
       handleCategoryChange,
       setMinRating,
       categoriesForUI,
+      categoryCounts,
     ]
   );
 
