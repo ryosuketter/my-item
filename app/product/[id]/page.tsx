@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import Image from "next/image";
 import type { Product } from "@/types/product";
+import { LoadingAnimation } from "@/components/LoadingAnimation";
 
 export default function ProductDetailPage() {
   const params = useParams();
@@ -52,11 +53,7 @@ export default function ProductDetailPage() {
   // 関連商品は一旦省略 or 別途APIで取得する形にできます
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-500 text-lg">読み込み中...</p>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   if (error || !product) {

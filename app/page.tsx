@@ -22,6 +22,7 @@ import { useSortQueryParam } from "@/hooks/useSortQueryParam";
 import Link from "next/link";
 import type { Product, Category } from "@/types/product";
 import { ResponsiveSelect } from "@/components/ResponsiveSelect";
+import { LoadingAnimation } from "@/components/LoadingAnimation";
 
 export default function ProductComparisonSite() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -191,11 +192,7 @@ export default function ProductComparisonSite() {
   );
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-gray-500 text-lg">読み込み中...</p>
-      </div>
-    );
+    return <LoadingAnimation />;
   }
 
   if (error) {
