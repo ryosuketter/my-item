@@ -87,6 +87,35 @@ npm run format:check
 - モバイル/タブレット/デスクトップ対応のレスポンシブ設計
 - Next.jsのImageコンポーネントによる画像最適化
 
+## フォーマット指定
+
+### ESLint/Prettier設定
+
+- 文字列はダブルクォートを使用する（シングルクォートは不可）
+  - 例: `'/api/'` → `"/api/"`
+- インポート文はダブルクォートを使用
+  - 例: `import { MetadataRoute } from 'next'` → `import { MetadataRoute } from "next"`
+- セミコロンは必須
+- カンマの後にはスペースを入れる
+
+### import type ルール
+
+- 型のみをインポートする場合は `import type` を使うこと（biomelint/style/useImportType対応）
+  - 例: `import { MetadataRoute } from "next";` → `import type { MetadataRoute } from "next";`
+- これにより「All these imports are only used as types.」という警告を防げる
+
+### よくあるエラーと修正例
+
+```typescript
+// ❌ 間違い
+import { MetadataRoute } from 'next'
+disallow: ['/api/'],
+
+// ✅ 正しい
+import type { MetadataRoute } from "next";
+disallow: ["/api/"],
+```
+
 ## sitemap.xml について
 
 ### エラー例とその解消方法
@@ -106,3 +135,6 @@ npm run format:check
   2. 商品詳細ページ: `/product/[id]`（microCMSから取得した全商品分）
   3. カテゴリページ: `/?category=スラッグ`（microCMSから取得した全カテゴリ分）
 - それぞれのURLに `lastModified`, `changeFrequency`, `priority` などの情報も付与される。
+- sitemap.xmlはSEO用であり、ブラウザで開くと「This XML file does not appear to have any style information associated with it.」と表示されるが、これは正常。
+
+---
