@@ -20,8 +20,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const productsResponse = await getProducts({ limit: 100 });
     const products = productsResponse.contents || [];
 
-    console.log(`Found ${products.length} products`);
-
     // 商品詳細ページのURL
     const productPages: MetadataRoute.Sitemap = products.map(
       (product: Product) => ({
@@ -36,8 +34,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const categoriesResponse = await getCategories({ limit: 100 });
     const categories = categoriesResponse.contents || [];
 
-    console.log(`Found ${categories.length} categories`);
-
     // カテゴリフィルタページのURL
     const categoryPages: MetadataRoute.Sitemap = categories.map(
       (category: Category) => ({
@@ -49,7 +45,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     );
 
     const allPages = [...staticPages, ...productPages, ...categoryPages];
-    console.log(`Total sitemap entries: ${allPages.length}`);
 
     return allPages;
   } catch (error) {
