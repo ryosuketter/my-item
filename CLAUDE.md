@@ -86,3 +86,23 @@ npm run format:check
 - `customBg` や `grayBadge` などのカスタムTailwindクラスを使用
 - モバイル/タブレット/デスクトップ対応のレスポンシブ設計
 - Next.jsのImageコンポーネントによる画像最適化
+
+## sitemap.xml について
+
+### エラー例とその解消方法
+
+- エラー内容
+  - `fetch API response status: 400 message is Invalid 'limit' value. It should not exceed 100.`
+  - microCMSのAPIで`limit`パラメータに100を超える値を指定すると400エラーとなる。
+- 解消方法
+  - `getProducts({ limit: 1000 })` などの記述を `getProducts({ limit: 100 })` のように100以下に修正する。
+  - 100件を超えるデータを全てsitemapに載せたい場合は、offsetを使って複数回リクエストし、全件取得する必要がある。
+
+### sitemap掲載ロジック
+
+- `/app/sitemap.ts` でsitemapを生成している。
+- 掲載されるURLは以下：
+  1. 静的ページ: トップページ（`/`）
+  2. 商品詳細ページ: `/product/[id]`（microCMSから取得した全商品分）
+  3. カテゴリページ: `/?category=スラッグ`（microCMSから取得した全カテゴリ分）
+- それぞれのURLに `lastModified`, `changeFrequency`, `priority` などの情報も付与される。
