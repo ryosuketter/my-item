@@ -107,11 +107,11 @@ npm run format:check
 ### よくあるエラーと修正例
 
 ```typescript
-// ❌ 間違い
+// 間違い
 import { MetadataRoute } from 'next'
 disallow: ['/api/'],
 
-// ✅ 正しい
+// 正しい
 import type { MetadataRoute } from "next";
 disallow: ["/api/"],
 ```
