@@ -7,10 +7,10 @@ export function LoadingAnimation() {
     <div className="flex items-center justify-center min-h-screen">
       <div className="relative w-96 h-12 overflow-hidden">
         <motion.div
-          initial={{ x: 0 }}
+          initial={{ x: 50 }}
           animate={{ x: 300 }}
           transition={{
-            duration: 2,
+            duration: 1,
             repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
           }}
