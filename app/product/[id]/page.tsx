@@ -132,8 +132,8 @@ export default function ProductDetailPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/?category=${product.categories[0].name}`}>
-                {product.categories[0].slug}
+              <BreadcrumbLink href={`/?category=${product.categories[0].slug}`}>
+                {product.categories[0].name}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

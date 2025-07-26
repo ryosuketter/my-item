@@ -68,7 +68,8 @@ export default function ProductComparisonSite() {
     for (const product of products) {
       if (product.categories) {
         for (const cat of product.categories) {
-          counts[cat.name] = (counts[cat.name] || 0) + 1;
+          counts[cat.slug || cat.name] =
+            (counts[cat.slug || cat.name] || 0) + 1;
         }
       }
     }
@@ -76,7 +77,7 @@ export default function ProductComparisonSite() {
   }, [products]);
 
   const [selectedCategories, handleCategoryChange] = useCategoryQueryParam(
-    categoriesForUI.map((cat) => cat.name)
+    categoriesForUI.map((cat) => cat.slug || cat.name)
   );
   const [minRating, setMinRating] = useRatingQueryParam();
 
@@ -88,7 +89,7 @@ export default function ProductComparisonSite() {
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.some((cat) =>
-          product.categories?.some((c) => c.name === cat)
+          product.categories?.some((c) => (c.slug || c.name) === cat)
         );
       const matchesRating = product.rating >= minRating;
       return matchesSearch && matchesCategory && matchesRating;
@@ -133,19 +134,24 @@ export default function ProductComparisonSite() {
                 className="flex items-center space-x-2 p-1 rounded-lg hover:bg-customBg"
               >
                 <Checkbox
-                  id={category.name}
-                  checked={selectedCategories.includes(category.name)}
+                  id={category.slug || category.name}
+                  checked={selectedCategories.includes(
+                    category.slug || category.name
+                  )}
                   onCheckedChange={(checked) =>
-                    handleCategoryChange(category.name, !!checked)
+                    handleCategoryChange(
+                      category.slug || category.name,
+                      !!checked
+                    )
                   }
                 />
                 <label
-                  htmlFor={category.name}
+                  htmlFor={category.slug || category.name}
                   className="text-sm font-medium cursor-pointer flex-1"
                 >
                   {category.name}
                   <span className="ml-2 text-xs text-gray-500">
-                    ({categoryCounts[category.name] || 0})
+                    ({categoryCounts[category.slug || category.name] || 0})
                   </span>
                 </label>
               </div>
