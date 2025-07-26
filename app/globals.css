@@ -129,3 +129,9 @@
   list-style-type: disc;
   list-style-position: inside;
 }
+.rich-content figcaption {
+  font-size: 0.8rem;
+  color: hsl(var(--muted-foreground));
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
