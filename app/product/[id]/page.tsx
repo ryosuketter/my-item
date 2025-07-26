@@ -384,7 +384,7 @@ export default function ProductDetailPage() {
                           className="rounded-lg object-cover flex-shrink-0"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm line-clamp-2 mb-1 hover:text-blue-600 transition-colors">
+                          <h4 className="font-medium text-sm line-clamp-2 mb-1">
                             {relatedProduct.name}
                           </h4>
                           <div className="flex items-center gap-1 mb-1">
