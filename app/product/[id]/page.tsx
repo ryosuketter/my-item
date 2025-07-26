@@ -369,7 +369,11 @@ export default function ProductDetailPage() {
                 <CardContent>
                   <div className="space-y-4">
                     {product.relatedProducts.map((relatedProduct) => (
-                      <div key={relatedProduct.id} className="flex gap-3">
+                      <a
+                        key={relatedProduct.id}
+                        href={`/product/${relatedProduct.id}`}
+                        className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors block"
+                      >
                         <Image
                           src={
                             relatedProduct.photos[0]?.url || "/placeholder.svg"
@@ -380,13 +384,8 @@ export default function ProductDetailPage() {
                           className="rounded-lg object-cover flex-shrink-0"
                         />
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm line-clamp-2 mb-1">
-                            <a
-                              href={`/product/${relatedProduct.id}`}
-                              className="hover:text-blue-600 transition-colors"
-                            >
-                              {relatedProduct.name}
-                            </a>
+                          <h4 className="font-medium text-sm line-clamp-2 mb-1 hover:text-blue-600 transition-colors">
+                            {relatedProduct.name}
                           </h4>
                           <div className="flex items-center gap-1 mb-1">
                             {renderStars(relatedProduct.rating)}
@@ -395,7 +394,7 @@ export default function ProductDetailPage() {
                             {relatedProduct.comment}
                           </div>
                         </div>
-                      </div>
+                      </a>
                     ))}
                   </div>
                 </CardContent>
